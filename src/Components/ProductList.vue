@@ -1,19 +1,20 @@
 <template>
-  <!-- ProductsList component -->
   <div class="container">
     <div class="card my-5 shadow">
       <div class="card-body">
         <div class="row">
           <!-- Product component -->
           <product
-              v-for="product in products"
-              :key="product.id"
+              v-for="(product,index) in products"
+              :key="index"
+              :id="product.id"
               :name="product.name"
-              :title="product.title"
+              :category="product.category"
               :price="product.price"
               :image="product.image"
-              @add-to-cart="addToCart(product)">
-          </product>
+              :isAvailable="product.is_available"
+              @add-to-cart="addToCart(product)"
+          />
         </div>
       </div>
     </div>
@@ -24,13 +25,13 @@
 import Product from "./Product";
 
 export default {
-  name: "ProductsList",
+  name: "ProductList",
   components: {Product},
   data: () => ({
     products: [],
   }),
   mounted() {
-    this.fetchProducts()
+    this.fetchProducts();
   },
   methods: {
     async fetchProducts() {
@@ -38,7 +39,7 @@ export default {
       this.products = await response.json();
     },
     addToCart(product) {
-      this.$root.addToCart(product)
+      this.$root.addToCart(product);
     }
   }
 }
